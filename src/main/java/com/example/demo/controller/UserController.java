@@ -54,15 +54,5 @@ public class UserController {
 
         return ResponseEntity.ok(userDetailResponseDto);
     }
-    @PostMapping("/auth/register")
-    public ResponseEntity<UserSimpleResponseDto> registerUser(@RequestBody UserRegistrationRequestDto userRegistrationRequestDto) {
-        User user = new User(
-                userRegistrationRequestDto.getUsername(),
-                userRegistrationRequestDto.getPassword(),
-                userRegistrationRequestDto.getName()
-        );
-        UserSimpleResponseDto savedUser = userService.saveUser(user);
 
-        return ResponseEntity.ok(savedUser);
-    }
 }
