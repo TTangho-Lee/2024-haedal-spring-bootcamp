@@ -39,6 +39,12 @@ public class PostController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/posts/delete")
+    public ResponseEntity<Void> deletePost(HttpServletRequest request) throws IOException {
+        postService.deletePost();
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/posts/user/{userId}")
     public ResponseEntity<List<PostResponseDto>> getPostsByUser(@PathVariable Long userId) {
         List<PostResponseDto> posts = postService.getPostsByUser(userId);

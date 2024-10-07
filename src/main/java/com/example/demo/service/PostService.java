@@ -32,6 +32,10 @@ public class PostService {
         Post saved = postRepository.save(post);
     }
 
+    public void deletePost(){
+        postRepository.deleteAll();
+    }
+
     public List<PostResponseDto> getPostsByUser(Long targetUserId) {
         User targetUser = userRepository.findById(targetUserId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
