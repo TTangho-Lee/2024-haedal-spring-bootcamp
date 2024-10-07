@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -33,15 +35,15 @@ public class User {
     @Column(name = "image_url")
     private String imageUrl;
 
-//    @OneToMany(mappedBy = "user")
-//    private List<Post> posts;
-//
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts;
+
 //    @OneToMany(mappedBy = "user")
 //    private List<Like> likes;
-//
+
 //    @OneToMany(mappedBy = "follower")
 //    private List<Follow> followings;
-//
+
 //    @OneToMany(mappedBy = "following")
 //    private List<Follow> followers; 이 부분은 추후 기능 구현시 필요해 주석 처리했습니다.
 
