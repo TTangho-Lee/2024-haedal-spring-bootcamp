@@ -1,11 +1,12 @@
 package com.example.demo.service;
 
+import com.example.demo.domain.User;
 import com.example.demo.dto.requestdto.UserUpdateRequestDto;
 import com.example.demo.dto.responsedto.UserDetailResponseDto;
+import com.example.demo.dto.responsedto.UserSimpleResponseDto;
+import com.example.demo.repository.FollowRepository;
 import com.example.demo.repository.PostRepository;
 import com.example.demo.repository.UserRepository;
-import com.example.demo.dto.responsedto.UserSimpleResponseDto;
-import com.example.demo.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +19,14 @@ public class UserService {
     private final UserRepository userRepository;
     private final ImageService imageService;
     private final PostRepository postRepository;
+    private final FollowRepository followRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository, ImageService imageService, PostRepository postRepository) {
+    public UserService(UserRepository userRepository, ImageService imageService, PostRepository postRepository,FollowRepository followRepository) {
         this.userRepository = userRepository;
         this.imageService = imageService;
         this.postRepository = postRepository;
+        this.followRepository = followRepository;
     }
 
     public UserSimpleResponseDto saveUser(User newUser) {
@@ -45,7 +48,7 @@ public class UserService {
                 targetUser.getUsername(),
                 targetUser.getName(),
                 imageData,
-                false
+                followRepository.existsByFollowerAndFollowing(currentUser, targetUser)
         );
     }
     public List<UserSimpleResponseDto> getAllUsers(User currentUser) {
@@ -101,12 +104,12 @@ public class UserService {
                 targetUser.getUsername(),
                 targetUser.getName(),
                 imageData,
-                false,
+                followRepository.existsByFollowerAndFollowing(currentUser, targetUser),
                 targetUser.getBio(),
                 targetUser.getJoinedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm")),
-                0L,
-                0L,
-                0L
+                postRepository.countByUser(targetUser),
+                followRepository.countByFollowing(targetUser),
+                followRepository.countByFollower(targetUser)
         );
     }
 }
